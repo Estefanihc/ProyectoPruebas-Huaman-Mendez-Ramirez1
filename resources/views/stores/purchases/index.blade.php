@@ -19,8 +19,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 60px 0;
-            color: #fff;
+            padding: 20px 0;
+            color: #fff;    
         }
 
         .logo {
@@ -30,11 +30,18 @@
         }
 
         .outer-card {
+            width: 1000px; /* Controlar el ancho */
+            max-width: 1200px; /* Limitar el ancho máximo */
+            height: auto; /* El alto se ajustará según el contenido */
+            min-height: 400px; /* Asegurar que el alto no sea menor que 400px */
+            padding: 25px; /* Ajustar el padding */
+            margin: 20px auto; /* Centrado con margen en la parte superior e inferior */
             border-radius: 20px;
             background-color: rgba(16, 13, 59, 0.95);
             transition: transform 0.3s ease;
-            padding: 40px;
+            position: left;
         }
+
 
         .outer-card:hover {
             transform: scale(1.05);
@@ -70,7 +77,7 @@
 
         .form-control {
             padding: 12px;
-            font-size: 16px;
+            font-size: 20px;
             border-radius: 8px;
             border: 1px solid #ddd1;
             transition: box-shadow 0.3s ease;
@@ -85,6 +92,30 @@
         .list-unstyled li {
             margin-bottom: 10px; /* Espaciado entre botones */
         }
+
+        /* Estilos para cuatro columnas */
+        #purchaseList {
+            display: flex;
+            flex-wrap: wrap;
+            list-style-type: none; /* Asegúrate de que la lista no tenga puntos */
+            padding: 1%; /* Eliminar el padding por defecto */
+        }
+
+        .purchase-item {
+            width: 280px; /* Establecer un ancho del 23% para cuatro columnas */
+            margin-right: 2%; /* Espacio entre las columnas */
+            margin-bottom: 30px; /* Espacio entre filas */
+        }
+
+        
+        .bg-navy {
+            background-color: #001f3f; /* Azul marino */
+        }
+
+        .img-size {
+            max-width: 140px; /* Ajusta el tamaño de la imagen según prefieras */
+            height: auto;
+        }
     </style>
 
     <div class="background-image d-flex align-items-center justify-content-center">
@@ -94,7 +125,6 @@
             </div>
 
             <div class="outer-card shadow-lg mx-auto mb-4">
-
                 <a href="{{ route('purchases.create') }}" class="btn btn-primary">Agregar Compra</a>
                 <a href="{{ route('dashboard') }}" class="btn btn-secondary">Volver</a>
                 
@@ -116,38 +146,36 @@
 
                         <!-- Lista de compras -->
                         <div class="mt-4">
-                            <h4>Ver Compras:</h4>
+                            <h1>Ver Compras:</h1>
                             <ul id="purchaseList" class="list-unstyled">
                                 @foreach ($purchases as $purchase)
                                     <li class="purchase-item">
-                                        <a href="{{ route('purchases.show', $purchase->id) }}" class="btn btn-info btn-checklist mb-2">
-                                            Ver Compra {{ $purchase->id }}
-                                        </a>
+                                        <div class="w-full p-4">
+                                            <div class="producto text-center bg-navy p-6 rounded-lg shadow-lg">
+                                                <!-- Imagen del producto -->
+                                                <img src="https://img.freepik.com/vector-gratis/paquete-caja-entrega-modelo-3d_78370-825.jpg" 
+                                                     alt="Producto {{ $purchase->id }}" 
+                                                     class="mx-auto mb-4 img-size">
+                                                
+                                                <!-- Información de la compra (número CIAF, cantidad, precio) -->
+                                                <h3 class="text-lg font-semibold">Compra #{{ $purchase->id }}</h3>
+                                                <p><strong>Número de CIAF:</strong> {{ $purchase->ciaf_number }}</p>
+                                                <p><strong>Cantidad:</strong> {{ $purchase->quantity }}</p>
+                                                <p><strong>Precio:</strong> S/ {{ number_format($purchase->price, 2) }}</p>
+                                                <p>------------------------</p>
+                        
+                                                <!-- Enlace para editar detalles de la compra -->
+                                                <a href="{{ route('purchases.show', $purchase->id) }}" class="btn btn-info btn-checklist mb-2">
+                                                    Editar Compra
+                                                </a>
+                                            </div>
+                                        </div>
                                     </li>
                                 @endforeach
                             </ul>
                         </div>
                         
-                        <style>
-                            #purchaseList {
-                                display: flex;
-                                flex-wrap: wrap;
-                                list-style-type: none; /* Asegúrate de que la lista no tenga puntos */
-                                padding: 0; /* Eliminar el padding por defecto */
-                            }
                         
-                            .purchase-item {
-                                width: 48%; /* Establecer un ancho del 48% para dos columnas */
-                                margin-right: 4%; /* Espacio entre las columnas */
-                                margin-bottom: 10px; /* Espacio entre filas */
-                            }
-                        
-                            .purchase-item:nth-child(2n) {
-                                margin-right: 0; /* Eliminar el margen derecho para cada segundo elemento */
-                            }
-                        </style>
-                        
-
                     </div>
                 </div>
                 
